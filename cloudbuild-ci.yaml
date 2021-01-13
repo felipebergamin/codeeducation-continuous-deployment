@@ -1,0 +1,8 @@
+steps:
+  - id: "Run GO tests"
+    dir: src
+    name: "gcr.io/cloud-builders/go"
+    args:
+      - "test"
+    env:
+      - "GOPATH=1.15.6"
