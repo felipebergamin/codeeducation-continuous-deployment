@@ -1,0 +1,41 @@
+steps:
+  - id: "Run GO tests"
+    dir: src
+    name: "gcr.io/cloud-builders/go"
+    args:
+      - "test"
+    env:
+      - "GOPATH=1.15.6"
+
+  - id: "Build Docker Image"
+    name: "docker"
+    args: [
+      "build",
+      "-t",
+      "gcr.io/$PROJECT_ID/goapp:$SHORT_SHA",
+      "."
+    ]
+
+  - id: "Pushing image to container registry"
+    name: "docker"
+    args: [
+      "push",
+      "gcr.io/$PROJECT_ID/goapp:$SHORT_SHA"
+    ]
+
+  - id: "Bootstrapping the deployment file with image name"
+    name: "gcloud"
+    entrypoint: "/bin/sh"
+    args:
+      - "-c"
+      - |
+        sed 's#img-app-deployment#gcr.io/$PROJECT_ID/goapp:$SHORT_SHA#g' k8s/deployment.yaml > k8s/deployment-final.yaml
+        cat k8s/deployment-final.yaml
+
+  - id: "Deploying to Kubernetes Cluster"
+    name: "kubectl"
+    args: [
+      "apply",
+      "-f",
+      "k8s/deployment-final.yaml"
+    ]
