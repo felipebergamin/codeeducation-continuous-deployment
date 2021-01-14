@@ -33,7 +33,7 @@ steps:
         cat k8s/deployment-final.yaml
 
   - id: "Deploying to Kubernetes Cluster"
-    name: "kubectl"
+    name: "gcr.io/cloud-builders/kubectl"
     args: [
       "apply",
       "-f",
