@@ -39,3 +39,6 @@ steps:
       "-f",
       "k8s/deployment-final.yaml"
     ]
+    env:
+      - 'CLOUDSDK_COMPUTE_REGION=us-central1-c'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=my-first-cluster-1'
