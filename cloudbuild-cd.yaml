@@ -24,7 +24,7 @@ steps:
     ]
 
   - id: "Bootstrapping the deployment file with image name"
-    name: "gcloud"
+    name: "gcr.io/cloud-builders/gcloud"
     entrypoint: "/bin/sh"
     args:
       - "-c"
